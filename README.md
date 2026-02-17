@@ -45,6 +45,9 @@ The calculator automatically converts between units using:
 - (Planned) Plot speed of sound vs altitude  
 - (Planned) Add command-line or GUI interface
 
+## Flow Diagram
+![Flowchart](assets/SpeedofSound_Calculator-FlowDiagram.png)
+
 ## 📂 Project Structure
 ```
 speed-of-sound-calculator/
