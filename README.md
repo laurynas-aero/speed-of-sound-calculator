@@ -10,17 +10,17 @@ The speed of sound in air can be estimated using the equation:
 
 
 
-\[
+$$
 a = \sqrt{\gamma R T}
-\]
+$$
 
 
 
 Where:
-- \( a \) = speed of sound  
-- \( \gamma \) = ratio of specific heats (≈ 1.4 for air)  
-- \( R \) = specific gas constant for air
-- \( T \) = temperature
+- a = speed of sound  
+- γ = ratio of specific heats (≈ 1.4 for air)  
+- R = specific gas constant for air
+- T = temperature
 
 Under ISA conditions, temperature varies with altitude, allowing the calculator to estimate speed of sound at different flight levels.
 
@@ -36,9 +36,8 @@ This calculator supports both **SI** and **Imperial/English** units.
 - Output: Speed of sound in ft/s
 
 The calculator automatically converts between units using:
-- \( a = \sqrt{\gamma R T} \) with  
-  - \( R = 287 \, \text{J/(kg·K)} \) for SI  
-  - \( R = 1716 \, \text{ft·lbf/(slug·°R)} \) for Imperial
+  - R = 287, J/kg·K for SI  
+  - R = 1716, ft·lbf/slug·°R for Imperial
 
 ## 🛠️ Features
 - Calculate speed of sound from a given temperature  
