@@ -27,14 +27,17 @@ def main():
     temperature = get_float_or_unknown('What is the temperature?')
     speed_of_sound = get_float_or_unknown('What is the speed of sound?')
 
-    #   List of Inputs
-    inputs = [alt_m, temperature, speed_of_sound]
-
-
     #   Finding Known
-    for inp in inputs:
-        if inp is not None:
-            known = float(inp)
+    if alt_m is not None:
+        known = alt_m
+    elif temperature is not None:
+        known = temperature
+    elif speed_of_sound is not None:
+        known = speed_of_sound
+    else:
+        print("ERROR: No valid input provided.")
+        return
+
 
     #   Constant in Units and Altitude
     if units.lower() == 'english':
@@ -43,7 +46,6 @@ def main():
         distance = 'ft'
         temp = 'R'
         if alt_m is not None:
-            known = float(known)
             alt_m = known*0.3048
 
     elif units.lower() == 'si':
@@ -53,12 +55,10 @@ def main():
         temp = 'K'
         
         if alt_m is not None:
-            known = float(known)
             alt_m = known
 
 
     if alt_m is not None:
-        known = float(known)
         atm = aerosandbox.Atmosphere(altitude=alt_m) 
         T_K = atm.temperature()
         T_R = T_K*1.8
@@ -70,10 +70,8 @@ def main():
             temperature = T_K
     #   Speed of Sound Calculation
     elif temperature is not None:
-        known = float(known)
         speed_of_sound = (constant*known)**0.5
     elif speed_of_sound is not None:
-        known = float(known)
         temperature = ((speed_of_sound)**2)/constant
     else:
         "ERROR. Please try again."
