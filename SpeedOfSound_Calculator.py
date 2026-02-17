@@ -1,10 +1,11 @@
 import aerosandbox
 
+#  Constant Variable Assignment
+RATIO_OF_SPECIFIC_HEATS = 1.4
+SPECIFIC_HEAT_SI = 287
+SPECIFIC_HEAT_ENGLISH = 1716
+
 def main():
-    #   Constant Variable Assignment
-    ratio_of_specific_heats = 1.4
-    specific_heat_constant_SI = 287
-    specific_heat_constant_english = 1716
 
     #   User Input Checking
     print("\nIf value unknown, write '_'")
@@ -50,7 +51,7 @@ def main():
 
     #   Constant in Units and Altitude
     if units.lower() == 'english':
-        constant = ratio_of_specific_heats*specific_heat_constant_english
+        constant = RATIO_OF_SPECIFIC_HEATS*SPECIFIC_HEAT_ENGLISH
         speed = 'ft/s'
         distance = 'ft'
         temp = 'R'
@@ -59,7 +60,7 @@ def main():
             alt_m = known*0.3048
 
     elif units.lower() == 'si':
-        constant = ratio_of_specific_heats*specific_heat_constant_SI
+        constant = RATIO_OF_SPECIFIC_HEATS*SPECIFIC_HEAT_SI
         speed = 'm/s'
         distance = 'm'
         temp = 'K'
