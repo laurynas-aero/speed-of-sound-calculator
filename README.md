@@ -50,7 +50,13 @@ The calculator automatically converts between units using:
 
 ## 📂 Project Structure
 ```
-speed-of-sound-calculator/
-│── speed_of_sound.py        # Main calculator script (SI + Imperial units)
-│── README.md                # Project documentation
+|   README.md
+|
++---assets
+|       SpeedofSound_Calculator-FlowDiagram.png
+|
++---speedofsound_calculator        
+|       calculator.py
+|       main.py
+|
 ```
