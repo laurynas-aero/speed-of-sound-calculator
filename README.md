@@ -118,4 +118,9 @@ python speedofsound_calculator/main.py
 ```
 
 ## 📄 License
+<<<<<<< HEAD
 MIT License - free to use, modify, and learn from.
+=======
+MIT License - free to use, modify, and learn from.
+
+>>>>>>> 83e45f33ef9f0f1935da3d23b4f1c163023a9431
