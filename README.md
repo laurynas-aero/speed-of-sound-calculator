@@ -97,14 +97,19 @@ Unit conversion is handled automatically.
 ## 📂 Project Structure
 ```
 .
-│   README.md                     # Project documentation
+├── .gitignore
+├── README.md
+├── run.py
 │
-├── assets/                       # Diagrams and static resources
+├── assets/
 │   └── SpeedofSound_Calculator-FlowDiagram.png
 │
-└── speedofsound_calculator/      # Main source code
-    ├── calculator.py             # Physics + ISA logic
-    └── main.py                   # User interface + input handling
+└── speedofsound_calculator/
+    ├── calculator.py
+    ├── main.py
+    ├── plots.py
+    └── ui.py
+
 ```
 
 ## 🚀 Getting Started
@@ -120,7 +125,3 @@ python speedofsound_calculator/main.py
 ## 📄 License
 <<<<<<< HEAD
 MIT License - free to use, modify, and learn from.
-=======
-MIT License - free to use, modify, and learn from.
-
->>>>>>> 83e45f33ef9f0f1935da3d23b4f1c163023a9431
