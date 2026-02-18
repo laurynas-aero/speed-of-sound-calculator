@@ -1,4 +1,4 @@
-from calculator import compute_speed_of_sound
+from speedofsound_calculator.calculator import compute_speed_of_sound
 
 def get_float_or_unknown(prompt):
     while True:
@@ -50,7 +50,7 @@ def main():
     if again == 'y':
         return
     else:
-        exit()
+        exit
 
 if __name__ == "__main__":
     while True:
