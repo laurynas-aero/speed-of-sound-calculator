@@ -20,27 +20,27 @@ def main():
         if units.lower() in ['english','si']:
             break
         print("Error: Invalid input")
-    alt_m = get_float_or_unknown("What is the standard altitude?")
+    alt_1 = get_float_or_unknown("What is the standard altitude?")
     temperature = get_float_or_unknown('What is the temperature?')
     speed_of_sound = get_float_or_unknown('What is the speed of sound?')
 
-    known_values = [alt_m, temperature, speed_of_sound]
+    known_values = [alt_1, temperature, speed_of_sound]
     count_known = sum(v is not None for v in known_values)
     if count_known > 1:
         print("Specify only one value")
-        return
+        return main()
     elif count_known == 0:
         print("Specify at least one value")
-        return
+        return main()
 
     speed_of_sound, temperature, alt_m, speed, temp, distance = compute_speed_of_sound(
-        units, alt_m, temperature, speed_of_sound
+        units, alt_1, temperature, speed_of_sound
     )
 
     #   Printing Results
     print(f"The speed of sound is: {speed_of_sound} {speed}")
     print(f"The temperature is: {temperature} {temp}")
-    print(f"The standard altitude is: {alt_m} {distance}")
+    print(f"The standard altitude is: {alt_1} {distance}")
 
 if __name__ == "__main__":
     main()

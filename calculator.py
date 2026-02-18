@@ -4,23 +4,25 @@ RATIO_OF_SPECIFIC_HEATS = 1.4
 SPECIFIC_HEAT_SI = 287
 SPECIFIC_HEAT_ENGLISH = 1716
 
-def compute_speed_of_sound(units, alt_m, temperature, speed_of_sound):
+def compute_speed_of_sound(units, alt_1, temperature, speed_of_sound):
+    alt_m = None
     # Determine constant
     if units.lower() == 'english':
         constant = RATIO_OF_SPECIFIC_HEATS * SPECIFIC_HEAT_ENGLISH
         speed_unit = 'ft/s'
         distance_unit = 'ft'
         temp_unit = 'R'
-        if alt_m is not None:
-            alt_m = alt_m * 0.3048
+        if alt_1 is not None:
+            alt_m = alt_1 * 0.3048
     else:
         constant = RATIO_OF_SPECIFIC_HEATS * SPECIFIC_HEAT_SI
         speed_unit = 'm/s'
         distance_unit = 'm'
         temp_unit = 'K'
+        alt_m = alt_1
 
     # Case 1: altitude known
-    if alt_m is not None:
+    if alt_1 is not None:
         atm = aerosandbox.Atmosphere(altitude=alt_m)
         T_K = atm.temperature()
         T_R = T_K * 1.8
