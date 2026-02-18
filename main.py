@@ -42,5 +42,16 @@ def main():
     print(f"The temperature is: {temperature} {temp}")
     print(f"The standard altitude is: {alt_1} {distance}")
 
+    while True:
+        again = input("Would you like to run again? (y/n)")
+        if again.lower() in ['y','n']:
+            break
+        print("Error: Invalid input")
+    if again == 'y':
+        return
+    else:
+        exit()
+
 if __name__ == "__main__":
-    main()
+    while True:
+        main()
