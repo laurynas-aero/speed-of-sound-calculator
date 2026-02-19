@@ -1,15 +1,30 @@
-import aerosandbox
+from ISA_temperature.calculator import temperature_from_altitude
+from constants import CONSTANTS
 
-def speed_of_sound_from_temperature(temp, SPECIFIC_HEAT):
-    speed_of_sound = (1.4*SPECIFIC_HEAT*temp) ** 0.5
+def speed_of_sound_from_temperature(temp, units):
+    SPECIFIC_HEAT = CONSTANTS[units]["R"]
+    GAMMA = CONSTANTS[units]["gamma"]
+
+    speed_of_sound = (GAMMA*SPECIFIC_HEAT*temp) ** 0.5
+
     return speed_of_sound
 
-def compute_speed_of_sound_from_altitude(alt_m, SPECIFIC_HEAT):
-    atm = aerosandbox.Atmosphere(altitude=alt_m)
-    temp = atm.temperature()
-    speed_of_sound = ((1.4*SPECIFIC_HEAT) * temp) ** 0.5
+def compute_speed_of_sound_from_altitude(alt_m, units):
+    temp = temperature_from_altitude(alt_m, units)
+    SPECIFIC_HEAT = CONSTANTS[units]["R"]
+    GAMMA = CONSTANTS[units]["gamma"]
+
+    speed_of_sound = ((GAMMA*SPECIFIC_HEAT) * temp) ** 0.5
+
     return speed_of_sound
 
-def compute_temperature_from_speed_of_sound(speed_of_sound, SPECIFIC_HEAT):
-    temp = (speed_of_sound ** 2) / (1.4*SPECIFIC_HEAT)
+def compute_temperature_from_speed_of_sound(speed_of_sound, units):
+    SPECIFIC_HEAT = CONSTANTS[units]["R"]
+    GAMMA = CONSTANTS[units]["gamma"]
+
+    temp = (speed_of_sound ** 2) / (GAMMA*SPECIFIC_HEAT)
+
     return temp
+
+a=compute_speed_of_sound_from_altitude(0, "english")
+print(a)
