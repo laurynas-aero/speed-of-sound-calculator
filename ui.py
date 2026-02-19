@@ -1,5 +1,5 @@
-from .main import main
-from .plots import plot_speed_vs_temperature_si, plot_speed_vs_altitude_english, plot_speed_vs_altitude_si, plot_speed_vs_temperature_english
+from .speedofsound_calculator.main import main
+from .speedofsound_calculator.plots import plot_speed_vs_temperature_si, plot_speed_vs_altitude_english, plot_speed_vs_altitude_si, plot_speed_vs_temperature_english
 
 def main_menu():
     while True:
