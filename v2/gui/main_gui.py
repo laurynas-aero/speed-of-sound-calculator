@@ -19,6 +19,10 @@ from logic.speed_of_sound.calculator import (
     compute_temperature_from_speed_of_sound
 )
 
+from logic.ISA_temperature.calculator import(
+    temperature_from_altitude
+)
+
 class MachCalculatorPage(BaseCalculatorPage):
     MODES = {
     "Mach from Altitude + Speed": {
@@ -308,6 +312,79 @@ class SpeedOfSoundPage(BaseCalculatorPage):
         except ValueError:
             self.result_label.config(text="Invalid input")
 
+class ISATemperaturePage(BaseCalculatorPage): 
+    MODES = {
+    "Temperature from Altitude": {
+        "fields": [("Altitude:", "alt")],
+        "button": "Compute Temperature",
+        "command": "compute_temp",
+        "output_key": "temp",
+        "output_label": "Temperature:"
+    }
+}
+    def __init__(self, parent):
+        super().__init__(parent)
+        
+
+        ttk.Label(self, text="ISA Temperature Calculator", font=("Segoe UI", 14, "bold")).grid(row=0, column=0, columnspan=2, pady=(10,20))
+        self.method_var = tk.StringVar(value="Temperature")
+
+        self.unit_var = tk.StringVar(value="si")
+        self.unit_var.trace_add("write", lambda *args: self.update_fields())
+
+        ttk.Checkbutton(
+            self,
+            text="Use English Units",
+            variable=self.unit_var,
+            onvalue="english",
+            offvalue="si"
+        ).grid(row=0, column=2, padx=10)
+
+        ttk.Label(self, text="Compute:").grid(row=1, column=0, sticky="e", padx=5, pady=5)
+
+        method_dropdown = ttk.OptionMenu(
+            self,
+            self.method_var,
+            "Temperature from Altitude",
+            command=self.update_fields
+        )
+        method_dropdown.grid(row=1, column=1, padx=5, pady=5)
+
+        self.input_frame = ttk.Frame(self)
+        self.input_frame.grid(row=2, column=0, columnspan=2, pady=10)
+        
+        self.update_fields()
+
+    def update_fields(self, *args):
+        method = self.method_var.get()
+        config = self.MODES[method]
+        unit_system = self.unit_var.get()
+        
+        self.build_inputs(
+            config["fields"],
+            config["button"],
+            getattr(self, config["command"]),
+            unit_system,
+            config["output_key"],
+            config["output_label"]
+        )
+
+    def compute_temp(self):
+        method = self.method_var.get()
+        units = self.unit_var.get()
+
+        try:
+            if method == "Temperature from Altitude":
+                alt = float(self.entries["alt"].get())
+
+                temp = temperature_from_altitude(alt, units)
+            
+            unit_suffix = UNITS[units]["temperature"]
+            self.result_label.config(text=f"Temperature: {temp:.3f} {unit_suffix}")
+
+        except ValueError:
+            self.result_label.config(text="Invalid input")
+
 class App(tk.Tk):
     def __init__ (self):
         super().__init__()
@@ -327,7 +404,8 @@ class App(tk.Tk):
 
         self.pages = { 
             "Mach Calculator": MachCalculatorPage(self.container), 
-            "Speed of Sound": SpeedOfSoundPage(self.container), 
+            "Speed of Sound": SpeedOfSoundPage(self.container),
+            "ISA Temperature": ISATemperaturePage(self.container)
             }
 
         for page in self.pages.values():
