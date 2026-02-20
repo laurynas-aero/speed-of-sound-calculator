@@ -61,7 +61,9 @@ class MachCalculatorPage(BaseCalculatorPage):
                 [("Altitude:","alt"),("Speed:", "speed")],
                 "Compute Mach",
                 self.compute_mach,
-                unit_system
+                unit_system,
+                "mach",
+                "Mach:"
             )
 
     def update_fields(self, *args):
@@ -74,49 +76,63 @@ class MachCalculatorPage(BaseCalculatorPage):
                 [("Altitude:","alt"),("Speed:", "speed")],
                 "Compute Mach",
                 self.compute_mach,
-                unit_system
+                unit_system,
+                "mach",
+                "Mach:"
             )
         elif method == "Mach from Temperature + Speed":
             self.build_inputs(
                 [("Temperature:","temp"),("Speed:", "speed")],
                 "Compute Mach",
                 self.compute_mach,
-                unit_system
+                unit_system,
+                "mach",
+                "Mach:"
             )
         elif method == "Mach from Speed of Sound + Speed":
             self.build_inputs(
                 [("Speed of Sound:","sos"),("Speed:", "speed")],
                 "Compute Mach",
                 self.compute_mach,
-                unit_system
+                unit_system,
+                "mach",
+                "Mach:"
             )
         elif method == "Speed from Mach + Speed of Sound":
             self.build_inputs(
                 [("Mach:","mach"),("Speed of Sound:", "sos")],
                 "Compute Speed",
                 self.compute_speed,
-                unit_system
+                unit_system,
+                "speed",
+                "Speed:"
             )
         elif method == "Speed from Mach + Temperature":
             self.build_inputs(
                 [("Mach:","mach"),("Temperature:", "temp")],
                 "Compute Speed",
                 self.compute_speed,
-                unit_system
+                unit_system,
+                "speed",
+                "Speed:"
             )
         elif method == "Speed from Mach + Altitude":
             self.build_inputs(
                 [("Mach:","mach"),("Altitude:", "alt")],
                 "Compute Speed",
                 self.compute_speed,
-                unit_system
+                unit_system,
+                "speed",
+                "Speed:"
             )
         elif method == "Speed of Sound from Mach + Speed":
             self.build_inputs(
                 [("Mach:","mach"),("Speed:", "speed")],
                 "Compute Speed of Sound",
                 self.compute_sos,
-                unit_system
+                unit_system,
+                "sos",
+                "Speed of Sound:"
             )
 
     def compute_mach(self):
