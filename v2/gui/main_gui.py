@@ -80,7 +80,7 @@ class MachCalculatorPage(BaseCalculatorPage):
         
 
         ttk.Label(self, text="Mach Calculator", font=("Segoe UI", 14, "bold")).grid(row=0, column=0, columnspan=2, pady=(10,20))
-        self.method_var = tk.StringVar(value="Altitude + Speed")
+        self.method_var = tk.StringVar(value="Mach from Altitude + Speed")
 
         self.unit_var = tk.StringVar(value="si")
         self.unit_var.trace_add("write", lambda *args: self.update_fields())
@@ -231,7 +231,7 @@ class SpeedOfSoundPage(BaseCalculatorPage):
         
 
         ttk.Label(self, text="Speed of Sound Calculator", font=("Segoe UI", 14, "bold")).grid(row=0, column=0, columnspan=2, pady=(10,20))
-        self.method_var = tk.StringVar(value="Temperature")
+        self.method_var = tk.StringVar(value="Speed of Sound from Temperature")
 
         self.unit_var = tk.StringVar(value="si")
         self.unit_var.trace_add("write", lambda *args: self.update_fields())
@@ -327,7 +327,7 @@ class ISATemperaturePage(BaseCalculatorPage):
         
 
         ttk.Label(self, text="ISA Temperature Calculator", font=("Segoe UI", 14, "bold")).grid(row=0, column=0, columnspan=2, pady=(10,20))
-        self.method_var = tk.StringVar(value="Temperature")
+        self.method_var = tk.StringVar(value="Temperature from Altitude")
 
         self.unit_var = tk.StringVar(value="si")
         self.unit_var.trace_add("write", lambda *args: self.update_fields())
