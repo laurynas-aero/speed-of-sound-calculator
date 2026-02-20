@@ -170,13 +170,15 @@ class MachCalculatorPage(BaseCalculatorPage):
 
                 speed = compute_speed_from_altitude(mach, alt, units)
 
-            self.result_label.config(text=f"Speed: {speed:.3f}")
+            unit_suffix = UNITS[units]["speed"]
+            self.result_label.config(text=f"Speed: {speed:.3f} {unit_suffix}")
         
         except ValueError:
             self.result_label.config(text="Invalid input")
 
     def compute_sos(self):
         method = self.method_var.get()
+        units = self.unit_var.get()
 
         try:
             if method == "Speed of Sound from Mach + Speed":
@@ -185,7 +187,8 @@ class MachCalculatorPage(BaseCalculatorPage):
 
                 sos = compute_speed_of_sound_from_mach_number(speed, mach)
 
-            self.result_label.config(text=f"Speed of Sound: {sos:.3f}")
+            unit_suffix = UNITS[units]["speed"]
+            self.result_label.config(text=f"Speed of Sound: {sos:.3f} {unit_suffix}")
         
         except ValueError:
             self.result_label.config(text="Invalid input")

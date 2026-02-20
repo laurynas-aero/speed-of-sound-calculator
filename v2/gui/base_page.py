@@ -20,7 +20,8 @@ class BaseCalculatorPage(ttk.Frame):
             entry.grid(row=row, column=1, padx=5, pady=5)
             self.entries[key] = entry
 
-        self.result_label = ttk.Label(self.input_frame, text='-')
+        full_result_label = f"{label} - {unit_suffix}"
+        self.result_label = ttk.Label(self.input_frame, text=full_result_label)
         self.result_label.grid(row=len(fields), column=0, columnspan=2, pady=10)
 
         ttk.Button(
