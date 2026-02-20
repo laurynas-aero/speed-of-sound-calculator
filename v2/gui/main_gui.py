@@ -15,6 +15,8 @@ from logic.Mach_number.calculator import (
 )
 from logic.speed_of_sound.calculator import (
     compute_speed_of_sound_from_temperature,
+    compute_speed_of_sound_from_altitude,
+    compute_temperature_from_speed_of_sound
 )
 
 class MachCalculatorPage(BaseCalculatorPage):
@@ -196,32 +198,113 @@ class MachCalculatorPage(BaseCalculatorPage):
         except ValueError:
             self.result_label.config(text="Invalid input")
 
-class SpeedOfSoundPage(ttk.Frame): 
-    def __init__(self, parent): 
-        super().__init__(parent) 
-        ttk.Label(self, text="Speed of Sound Calculator", font=("Segoe UI", 14, "bold")).grid(row=0, column=0, columnspan=2, pady=(10, 20)) 
-        ttk.Label(self, text="Temperature:").grid(row=1, column=0, sticky="e", padx=5, pady=5) 
+class SpeedOfSoundPage(BaseCalculatorPage): 
+    MODES = {
+    "Speed of Sound from Temperature": {
+        "fields": [("Temperature:", "temp")],
+        "button": "Compute Speed of Sound",
+        "command": "compute_sos",
+        "output_key": "sos",
+        "output_label": "Speed of Sound:"
+    },
+    "Speed of Sound from Altitude": {
+        "fields": [("Altitude:", "alt")],
+        "button": "Compute Speed of Sound",
+        "command": "compute_sos",
+        "output_key": "sos",
+        "output_label": "Speed of Sound:"
+    },
+    "Temperature from Speed of Sound": {
+        "fields": [("Speed of Sound:", "sos")],
+        "button": "Compute Temperature",
+        "command": "compute_temp",
+        "output_key": "temp",
+        "output_label": "Temperature:"
+    }
+}
+    def __init__(self, parent):
+        super().__init__(parent)
         
-        self.temp_entry = ttk.Entry(self) 
-        self.temp_entry.grid(row=1, column=1, padx=5, pady=5) 
+
+        ttk.Label(self, text="Speed of Sound Calculator", font=("Segoe UI", 14, "bold")).grid(row=0, column=0, columnspan=2, pady=(10,20))
+        self.method_var = tk.StringVar(value="Temperature")
+
+        self.unit_var = tk.StringVar(value="si")
+        self.unit_var.trace_add("write", lambda *args: self.update_fields())
+
+        ttk.Checkbutton(
+            self,
+            text="Use English Units",
+            variable=self.unit_var,
+            onvalue="english",
+            offvalue="si"
+        ).grid(row=0, column=2, padx=10)
+
+        ttk.Label(self, text="Compute:").grid(row=1, column=0, sticky="e", padx=5, pady=5)
+
+        method_dropdown = ttk.OptionMenu(
+            self,
+            self.method_var,
+            "Speed of Sound from Temperature",
+            "Speed of Sound from Altitude",
+            "Temperature from Speed of Sound",
+            command=self.update_fields
+        )
+        method_dropdown.grid(row=1, column=1, padx=5, pady=5)
+
+        self.input_frame = ttk.Frame(self)
+        self.input_frame.grid(row=2, column=0, columnspan=2, pady=10)
         
-        self.result_label = ttk.Label(self, text="Speed of Sound: —") 
-        self.result_label.grid(row=2, column=0, columnspan=2, pady=10) 
+        self.update_fields()
+
+    def update_fields(self, *args):
+        method = self.method_var.get()
+        config = self.MODES[method]
+        unit_system = self.unit_var.get()
         
-        ttk.Button(
-            self, 
-            text="Compute Speed of Sound", 
-            command=self.compute_sos
-            ).grid(row=3, column=0, columnspan=2, pady=10)
+        self.build_inputs(
+            config["fields"],
+            config["button"],
+            getattr(self, config["command"]),
+            unit_system,
+            config["output_key"],
+            config["output_label"]
+        )
 
     def compute_sos(self):
+        method = self.method_var.get()
+        units = self.unit_var.get()
+
         try:
-            temp = float(self.temp_entry.get())
+            if method == "Speed of Sound from Temperature":
+                temp = float(self.entries["temp"].get())
 
-            sos = compute_speed_of_sound_from_temperature(temp, "si")
+                sos = compute_speed_of_sound_from_temperature(temp, units)
 
-            self.result_label.config(text=f"Speed of Sound: {sos:.3f}")
+            elif method == "Speed of Sound from Altitude":
+                alt = float(self.entries["alt"].get())
+
+                sos = compute_speed_of_sound_from_altitude(alt, units)
+
+            unit_suffix = UNITS[units]["speed"]
+            self.result_label.config(text=f"Speed of Sound: {sos:.3f} {unit_suffix}")
         
+        except ValueError:
+            self.result_label.config(text="Invalid input")
+        
+    def compute_temp(self):
+        method = self.method_var.get()
+        units = self.unit_var.get()
+
+        try:
+            if method == "Temperature from Speed of Sound":
+                sos = float(self.entries["sos"].get())
+
+                temp = compute_temperature_from_speed_of_sound(sos, units)
+            
+            unit_suffix = UNITS[units]["temperature"]
+            self.result_label.config(text=f"Temperature: {temp:.3f} {unit_suffix}")
+
         except ValueError:
             self.result_label.config(text="Invalid input")
 
