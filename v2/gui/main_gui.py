@@ -18,6 +18,57 @@ from logic.speed_of_sound.calculator import (
 )
 
 class MachCalculatorPage(BaseCalculatorPage):
+    MODES = {
+    "Mach from Altitude + Speed": {
+        "fields": [("Altitude:", "alt"), ("Speed:", "speed")],
+        "button": "Compute Mach",
+        "command": "compute_mach",
+        "output_key": "mach",
+        "output_label": "Mach:"
+    },
+    "Mach from Temperature + Speed": {
+        "fields": [("Temperature:", "temp"), ("Speed:", "speed")],
+        "button": "Compute Mach",
+        "command": "compute_mach",
+        "output_key": "mach",
+        "output_label": "Mach:"
+    },
+    "Mach from Speed of Sound + Speed": {
+        "fields": [("Speed of Sound:", "sos"), ("Speed:", "speed")],
+        "button": "Compute Mach",
+        "command": "compute_mach",
+        "output_key": "mach",
+        "output_label": "Mach:"
+    },
+    "Speed from Mach + Speed of Sound": {
+        "fields": [("Mach:", "mach"), ("Speed of Sound:", "sos")],
+        "button": "Compute Speed",
+        "command": "compute_speed",
+        "output_key": "speed",
+        "output_label": "Speed:"
+    },
+    "Speed from Mach + Temperature": {
+        "fields": [("Mach:", "mach"), ("Temperature:", "temp")],
+        "button": "Compute Speed",
+        "command": "compute_speed",
+        "output_key": "speed",
+        "output_label": "Speed:"
+    },
+    "Speed from Mach + Altitude": {
+        "fields": [("Mach:", "mach"), ("Altitude:", "alt")],
+        "button": "Compute Speed",
+        "command": "compute_speed",
+        "output_key": "speed",
+        "output_label": "Speed:"
+    },
+    "Speed of Sound from Mach + Speed": {
+        "fields": [("Mach:", "mach"), ("Speed:", "speed")],
+        "button": "Compute Speed of Sound",
+        "command": "compute_sos",
+        "output_key": "sos",
+        "output_label": "Speed of Sound:"
+    }
+}
     def __init__(self, parent):
         super().__init__(parent)
         
@@ -54,86 +105,22 @@ class MachCalculatorPage(BaseCalculatorPage):
 
         self.input_frame = ttk.Frame(self)
         self.input_frame.grid(row=2, column=0, columnspan=2, pady=10)
-
-        unit_system = self.unit_var.get()
-
-        self.build_inputs(
-                [("Altitude:","alt"),("Speed:", "speed")],
-                "Compute Mach",
-                self.compute_mach,
-                unit_system,
-                "mach",
-                "Mach:"
-            )
+        
+        self.update_fields()
 
     def update_fields(self, *args):
         method = self.method_var.get()
-        unit = self.unit_var
+        config = self.MODES[method]
         unit_system = self.unit_var.get()
         
-        if method == "Mach from Altitude + Speed":
-            self.build_inputs(
-                [("Altitude:","alt"),("Speed:", "speed")],
-                "Compute Mach",
-                self.compute_mach,
-                unit_system,
-                "mach",
-                "Mach:"
-            )
-        elif method == "Mach from Temperature + Speed":
-            self.build_inputs(
-                [("Temperature:","temp"),("Speed:", "speed")],
-                "Compute Mach",
-                self.compute_mach,
-                unit_system,
-                "mach",
-                "Mach:"
-            )
-        elif method == "Mach from Speed of Sound + Speed":
-            self.build_inputs(
-                [("Speed of Sound:","sos"),("Speed:", "speed")],
-                "Compute Mach",
-                self.compute_mach,
-                unit_system,
-                "mach",
-                "Mach:"
-            )
-        elif method == "Speed from Mach + Speed of Sound":
-            self.build_inputs(
-                [("Mach:","mach"),("Speed of Sound:", "sos")],
-                "Compute Speed",
-                self.compute_speed,
-                unit_system,
-                "speed",
-                "Speed:"
-            )
-        elif method == "Speed from Mach + Temperature":
-            self.build_inputs(
-                [("Mach:","mach"),("Temperature:", "temp")],
-                "Compute Speed",
-                self.compute_speed,
-                unit_system,
-                "speed",
-                "Speed:"
-            )
-        elif method == "Speed from Mach + Altitude":
-            self.build_inputs(
-                [("Mach:","mach"),("Altitude:", "alt")],
-                "Compute Speed",
-                self.compute_speed,
-                unit_system,
-                "speed",
-                "Speed:"
-            )
-        elif method == "Speed of Sound from Mach + Speed":
-            self.build_inputs(
-                [("Mach:","mach"),("Speed:", "speed")],
-                "Compute Speed of Sound",
-                self.compute_sos,
-                unit_system,
-                "sos",
-                "Speed of Sound:"
-            )
+        self.build_inputs(
+            config["fields"],
+            config["button"],
+            getattr(self, config["command"]),
+            unit_system,
+            config["output_key"],
+            config["output_label"]
+        )
 
     def compute_mach(self):
         method = self.method_var.get()
