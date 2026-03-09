@@ -20,5 +20,6 @@ FIELD_TO_QUANTITY = {
     "speed": "speed",
     "sos": "speed",
     "temp": "temperature",
+    "pressure":"pressure",
     "mach": None
 }
