@@ -20,11 +20,11 @@ from logic.speed_of_sound.calculator import (
 )
 
 from logic.ISA_temperature.calculator import(
-    temperature_from_altitude
+    compute_temperature_from_altitude
 )
 
 from logic.ISA_pressure.calculator import(
-    compute_pressure_from_altitude_tropo
+    compute_pressure_from_altitude
 )
 
 class MachCalculatorPage(BaseCalculatorPage):
@@ -381,7 +381,7 @@ class ISATemperaturePage(BaseCalculatorPage):
             if method == "Temperature from Altitude":
                 alt = float(self.entries["alt"].get())
 
-                temp = temperature_from_altitude(alt, units)
+                temp = compute_temperature_from_altitude(alt, units)
             
             unit_suffix = UNITS[units]["temperature"]
             self.result_label.config(text=f"Temperature: {temp:.3f} {unit_suffix}")
@@ -454,10 +454,10 @@ class ISAPressurePage(BaseCalculatorPage):
             if method == "Pressure from Altitude":
                 alt = float(self.entries["alt"].get())
 
-                temp = compute_pressure_from_altitude_tropo(alt, units)
+                pressure = compute_pressure_from_altitude(alt, units)
             
             unit_suffix = UNITS[units]["pressure"]
-            self.result_label.config(text=f"Pressure: {temp:.3f} {unit_suffix}")
+            self.result_label.config(text=f"Pressure: {pressure:.3f} {unit_suffix}")
 
         except ValueError:
             self.result_label.config(text="Invalid input")
