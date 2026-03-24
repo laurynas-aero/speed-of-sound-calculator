@@ -1,125 +1,160 @@
-# Speed of Sound Calculator
+# Aero Calculator Suite
 
-A physics‑based calculator that determines **speed of sound**, **temperature**, or **ISA‑based atmospheric conditions**, depending on which variable the user provides. Designed for aerospace engineering students, atmospheric modelling practice, and quick engineering checks.
+A series of modular aerospace and atmospheric engineering calculators.
 
 ---
 
 ## 📘 Overview
 
-This tool supports three core operations:
+The **Aero Calculator Suite** is a growing set of physics-based tools designed for:
 
-- **Temperature → Speed of sound**
-- **Speed of sound → Temperature**
-- **Altitude (ISA) → Temperature → Speed of sound**
+- Aerospace engineering students
+- Pilots and aviation enthusiasts
+- Physics learners
+- Anyone needing quick, reliable engineering calculations
 
-You must leave any two inputs blank (using `_`), and the program will compute the missing values automatically.
-
-The project is modular, readable, and easy to extend.
+Each calculator is self-contained, readable, and built around real aerodynamic and atmospheric equations.
 
 ---
 
-## 🧪 Physics Background
+## 🧰 Included Calculators
 
-The speed of sound in air is given by:
+### 1. Speed of Sound Calculator
 
+- Compute speed of sound from temperature
+- Compute temperature from speed of sound
+- Compute speed of sound from altitude
 
+### 2. Mach Number Calculator
 
-$$
-a = \sqrt{\gamma R T}
-$$
+- Compute Mach number from temperature and speed
+- Compute Mach number from altitude and speed
+- Compute Mach number from speed of sound and speed
+- Compute speed from Mach number and speed of sound
+- Compute speed from Mach number and temperature
+- Compute speed from Mach number and altitude
+- Compute speed of sound from Mach number and speed
 
+### 3. ISA Temperature Calculator
 
+- Compute temperature from altitude up to stratosphere (full coverage planned...)
 
-Where:
+### 4. ISA Pressure Calculator
 
-- **a** — speed of sound  
-- **γ** — ratio of specific heats (≈ 1.4 for air)  
-- **R** — specific gas constant  
-- **T** — temperature  
-
-Rearranged to compute temperature from speed of sound:
-
-
-
-$$
-T = \frac{a^2}{\gamma R}
-$$
-
-
-
-When altitude is provided, the calculator uses the **International Standard Atmosphere (ISA)** model (via AeroSandbox) to determine temperature and then compute the speed of sound.
+- Compute pressure from altitude up to troposphere (full coverage planned...)
 
 ---
 
 ## 🧮 Unit Support
 
-Supports both **SI** and **Imperial** units.
+Supports both **SI** and **English** units.
 
 ### SI Units
-- Temperature: Kelvin (K)  
-- Speed of sound: m/s  
+- Temperature: K  
+- Speed: m/s
+- Distance: m
 
-### Imperial Units
-- Temperature: Rankine (°R)  
-- Speed of sound: ft/s  
-
-Gas constants:
-
-- **SI:** R = 287, J/kg·K
-- **Imperial:** R = 1716, ft·lbf/slug·°R
-
-Unit conversion is handled automatically.
+### English Units
+- Temperature: °R  
+- Speed: ft/s
+- Distance: ft 
 
 ---
 
-## 🛠️ Features
-
-- Compute **speed of sound from temperature**
-- Compute **temperature from speed of sound**
-- Compute **speed of sound from ISA altitude**
-- Supports unknown values using `_`
-- Robust input validation
-- Clean separation of UI and physics logic
-- Looping interface for repeated calculations
-
 ### Planned Enhancements
-- Speed‑of‑sound vs altitude plotting  
-- Density, pressure, and Mach number calculations  
-- Unit conversion utilities  
-- GUI or command‑line menu  
+- Graphing
+- Full ISA altitude model
+- Lift and Drag calculators  
 - Packaging as a pip‑installable module  
 
 ---
 
-## 📊 Flow Diagram
-![Flowchart](assets/SpeedofSound_Calculator-FlowDiagram.png)
-
 ## 📂 Project Structure
 ```
-.
-├── .gitignore
-├── README.md
-├── run.py
-│
-├── assets/
-│   └── SpeedofSound_Calculator-FlowDiagram.png
-│
-└── speedofsound_calculator/
-    ├── calculator.py
-    ├── main.py
-    ├── plots.py
-    └── ui.py
-
+|   README.md
+|   
++---v1
+|   |   .gitignore
+|   |   run.py
+|   |   ui.py
+|   |   
+|   +---assets
+|   |       SpeedofSound_Calculator-FlowDiagram.png
+|   |       
+|   +---speedofsound_calculator
+|   |       calculator.py
+|   |       main.py
+|   |       plots.py
+|   |       
+|   \---__pycache__
+|           calculator.cpython-314.pyc
+|           constants.cpython-314.pyc
+|           SpeedOfSound_Calculator.cpython-314.pyc
+|           ui.cpython-314.pyc
+|
+\---v2
+    |   .gitignore
+    |   main.py
+    |
+    +---.vscode
+    +---gui
+    |   |   base_page.py
+    |   |   main_gui.py
+    |   |
+    |   \---__pycache__
+    |           base_page.cpython-314.pyc    
+    |           main_gui.cpython-314.pyc     
+    |
+    +---logic
+    |   |   constants.py
+    |   |   units.py
+    |   |   __init__.py
+    |   |
+    |   +---ISA_pressure
+    |   |   |   calculator.py
+    |   |   |   __init__.py
+    |   |   |
+    |   |   \---__pycache__
+    |   |           calculator.cpython-314.pyc
+    |   |           __init__.cpython-314.pyc 
+    |   |
+    |   +---ISA_temperature
+    |   |   |   calculator.py
+    |   |   |   __init__.py
+    |   |   |
+    |   |   \---__pycache__
+    |   |           calculator.cpython-314.pyc
+    |   |           __init__.cpython-314.pyc 
+    |   |
+    |   +---Mach_number
+    |   |   |   calculator.py
+    |   |   |   __init__.py
+    |   |   |
+    |   |   \---__pycache__
+    |   |           calculator.cpython-314.pyc
+    |   |           __init__.cpython-314.pyc 
+    |   |
+    |   +---speed_of_sound
+    |   |   |   calculator.py
+    |   |   |   __init__.py
+    |   |   |
+    |   |   \---__pycache__
+    |   |           calculator.cpython-314.pyc
+    |   |           __init__.cpython-314.pyc 
+    |   |
+    |   \---__pycache__
+    |           constants.cpython-314.pyc    
+    |           units.cpython-314.pyc        
+    |           __init__.cpython-314.pyc     
+    |
+    \---__pycache__
+            constants.cpython-314.pyc  
 ```
 
 ## 🚀 Getting Started
-Install dependencies:
-```
-pip install aerosandbox
-```
 Run the calculator:
 ```
-python speedofsound_calculator/main.py
+python speedofsound_calculator/v2/main.py
 ```
 
 ## 📄 License
