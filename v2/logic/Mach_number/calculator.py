@@ -16,7 +16,6 @@ def compute_mach_number_from_temperature(temp, speed, units):
         float: Mach number (m/s or ft/s depending on units)
         """
     speed_of_sound = compute_speed_of_sound_from_temperature(temp, units)
-    _check_inputs(speed_of_sound, speed)
 
     mach_number = speed/speed_of_sound
 
@@ -35,7 +34,6 @@ def compute_mach_number_from_altitude(alt, speed, units):
         float: Mach number (m/s or ft/s depending on units)
         """
     speed_of_sound = compute_speed_of_sound_from_altitude(alt, units)
-    _check_inputs(speed_of_sound, speed)
 
     mach_number = speed/speed_of_sound
 
@@ -52,7 +50,6 @@ def compute_mach_number_from_speed_of_sound(speed_of_sound, speed):
     Returns:
         float: Mach number (m/s or ft/s depending on units)
         """
-    _check_inputs(speed_of_sound, speed)
     
     mach_number = speed/speed_of_sound
 
