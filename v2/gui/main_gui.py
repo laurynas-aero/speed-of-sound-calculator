@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from gui.base_page import BaseCalculatorPage
 from logic.units import UNITS
+from logic.input_checker import check_inputs, to_float
 
 # Import your physics engine
 from logic.Mach_number.calculator import (
@@ -138,22 +139,60 @@ class MachCalculatorPage(BaseCalculatorPage):
 
         try:
             if method == "Mach from Altitude + Speed":
-                alt = float(self.entries["alt"].get())
-                speed = float(self.entries["speed"].get())
+                alt = self.entries["alt"].get()
+                speed = self.entries["speed"].get()
 
-                mach = compute_mach_number_from_altitude(alt, speed, units)
+                input_check_alt = check_inputs("alt", alt, units)
+                input_check_speed = check_inputs("speed", speed, units)
+
+                if input_check_alt != None:
+                    self.result_label.config(text=f"{input_check_alt}")
+                    return
+                elif input_check_speed != None:
+                    self.result_label.config(text=input_check_speed)
+                    return
+                else:
+                    alt = to_float(alt)
+                    speed = to_float(speed)
+                    mach = compute_mach_number_from_altitude(alt, speed, units)
 
             elif method == "Mach from Temperature + Speed":
-                temp = float(self.entries["temp"].get())
-                speed = float(self.entries["speed"].get())
+                temp = self.entries["temp"].get()
+                speed = self.entries["speed"].get()
 
-                mach = compute_mach_number_from_temperature(temp, speed, units)
+                input_check_temp = check_inputs("temp", temp, units)
+                input_check_speed = check_inputs("speed", speed, units)
+
+                if input_check_temp != None:
+                    self.result_label.config(text=f"{input_check_temp}")
+                    return
+                elif input_check_speed != None:
+                    self.result_label.config(text=input_check_speed)
+                    return
+                else:
+                    temp = to_float(temp)
+                    speed = to_float(speed)
+
+                    mach = compute_mach_number_from_temperature(temp, speed, units)
 
             elif method == "Mach from Speed of Sound + Speed":
-                sos = float(self.entries["sos"].get())
-                speed = float(self.entries["speed"].get())
+                sos = self.entries["sos"].get()
+                speed = self.entries["speed"].get()
 
-                mach = compute_mach_number_from_speed_of_sound(sos, speed)
+                input_check_sos = check_inputs("sos", sos, units)
+                input_check_speed = check_inputs("speed", speed, units)
+
+                if input_check_sos != None:
+                    self.result_label.config(text=f"{input_check_sos}")
+                    return
+                elif input_check_speed != None:
+                    self.result_label.config(text=input_check_speed)
+                    return
+                else:
+                    sos = to_float(sos)
+                    speed = to_float(speed)
+                    
+                    mach = compute_mach_number_from_speed_of_sound(sos, speed)
 
             self.result_label.config(text=f"Mach: {mach:.3f}")
         
@@ -166,20 +205,46 @@ class MachCalculatorPage(BaseCalculatorPage):
 
         try:
             if method == "Speed from Mach + Speed of Sound":
-                mach = float(self.entries["mach"].get())
-                sos = float(self.entries["sos"].get())
+                mach = self.entries["mach"].get()
+                sos = self.entries["sos"].get()
 
-                speed = compute_speed_from_mach_number(mach, sos)
+                input_check_mach = check_inputs("mach", mach, units)
+                input_check_sos = check_inputs("sos", sos, units)
+
+                if input_check_mach != None:
+                    self.result_label.config(text=f"{input_check_mach}")
+                    return
+                elif input_check_sos != None:
+                    self.result_label.config(text=input_check_sos)
+                    return
+                else:
+                    mach = to_float(mach)
+                    sos = to_float(sos)
+                    
+                    speed = compute_speed_from_mach_number(mach, sos)
 
             elif method == "Speed from Mach + Temperature":
-                mach = float(self.entries["mach"].get())
-                temp = float(self.entries["temp"].get())
+                mach = self.entries["mach"].get()
+                temp = self.entries["temp"].get()
 
-                speed = compute_speed_from_temperature(mach, temp, units)
+                input_check_mach = check_inputs("mach", mach, units)
+                input_check_temp = check_inputs("temp", temp, units)
+
+                if input_check_mach != None:
+                    self.result_label.config(text=f"{input_check_mach}")
+                    return
+                elif input_check_temp != None:
+                    self.result_label.config(text=input_check_temp)
+                    return
+                else:
+                    mach = to_float(mach)
+                    temp = to_float(temp)
+                    
+                    speed = compute_speed_from_temperature(mach, temp, units)
 
             elif method == "Speed from Mach + Altitude":
-                mach = float(self.entries["mach"].get())
-                alt = float(self.entries["alt"].get())
+                mach = to_float(self.entries["mach"].get())
+                alt = to_float(self.entries["alt"].get())
 
                 speed = compute_speed_from_altitude(mach, alt, units)
 
@@ -195,10 +260,23 @@ class MachCalculatorPage(BaseCalculatorPage):
 
         try:
             if method == "Speed of Sound from Mach + Speed":
-                mach = float(self.entries["mach"].get())
-                speed = float(self.entries["speed"].get())
+                mach = self.entries["mach"].get()
+                speed = self.entries["speed"].get()
 
-                sos = compute_speed_of_sound_from_mach_number(speed, mach)
+                input_check_mach = check_inputs("mach", mach, units)
+                input_check_speed = check_inputs("speed", speed, units)
+
+                if input_check_mach != None:
+                    self.result_label.config(text=f"{input_check_mach}")
+                    return
+                elif input_check_speed != None:
+                    self.result_label.config(text=input_check_speed)
+                    return
+                else:
+                    mach = to_float(mach)
+                    speed = to_float(speed)
+
+                    sos = compute_speed_of_sound_from_mach_number(speed, mach)
 
             unit_suffix = UNITS[units]["speed"]
             self.result_label.config(text=f"Speed of Sound: {sos:.3f} {unit_suffix}")
@@ -285,14 +363,30 @@ class SpeedOfSoundPage(BaseCalculatorPage):
 
         try:
             if method == "Speed of Sound from Temperature":
-                temp = float(self.entries["temp"].get())
+                temp = self.entries["temp"].get()
 
-                sos = compute_speed_of_sound_from_temperature(temp, units)
+                input_check_temp = check_inputs("temp", temp, units)
+
+                if input_check_temp != None:
+                    self.result_label.config(text=f"{input_check_temp}")
+                    return
+                else:
+                    temp = to_float(temp)
+
+                    sos = compute_speed_of_sound_from_temperature(temp, units)
 
             elif method == "Speed of Sound from Altitude":
-                alt = float(self.entries["alt"].get())
+                alt = self.entries["alt"].get()
 
-                sos = compute_speed_of_sound_from_altitude(alt, units)
+                input_check_alt = check_inputs("alt", alt, units)
+
+                if input_check_alt != None:
+                    self.result_label.config(text=f"{input_check_alt}")
+                    return
+                else:
+                    alt = to_float(alt)
+
+                    sos = compute_speed_of_sound_from_altitude(alt, units)
 
             unit_suffix = UNITS[units]["speed"]
             self.result_label.config(text=f"Speed of Sound: {sos:.3f} {unit_suffix}")
@@ -306,9 +400,17 @@ class SpeedOfSoundPage(BaseCalculatorPage):
 
         try:
             if method == "Temperature from Speed of Sound":
-                sos = float(self.entries["sos"].get())
+                sos = self.entries["sos"].get()
 
-                temp = compute_temperature_from_speed_of_sound(sos, units)
+                input_check_sos = check_inputs("sos", sos, units)
+
+                if input_check_sos != None:
+                    self.result_label.config(text=f"{input_check_sos}")
+                    return
+                else:
+                    sos = to_float(sos)
+
+                    temp = compute_temperature_from_speed_of_sound(sos, units)
             
             unit_suffix = UNITS[units]["temperature"]
             self.result_label.config(text=f"Temperature: {temp:.3f} {unit_suffix}")
@@ -379,9 +481,17 @@ class ISATemperaturePage(BaseCalculatorPage):
 
         try:
             if method == "Temperature from Altitude":
-                alt = float(self.entries["alt"].get())
+                alt = self.entries["alt"].get()
 
-                temp = compute_temperature_from_altitude(alt, units)
+                input_check_alt = check_inputs("alt", alt, units)
+
+                if input_check_alt != None:
+                    self.result_label.config(text=f"{input_check_alt}")
+                    return
+                else:
+                    alt = to_float(alt)
+
+                    temp = compute_temperature_from_altitude(alt, units)
             
             unit_suffix = UNITS[units]["temperature"]
             self.result_label.config(text=f"Temperature: {temp:.3f} {unit_suffix}")
@@ -452,9 +562,17 @@ class ISAPressurePage(BaseCalculatorPage):
 
         try:
             if method == "Pressure from Altitude":
-                alt = float(self.entries["alt"].get())
+                alt = self.entries["alt"].get()
 
-                pressure = compute_pressure_from_altitude(alt, units)
+                input_check_alt = check_inputs("alt", alt, units)
+
+                if input_check_alt != None:
+                    self.result_label.config(text=f"{input_check_alt}")
+                    return
+                else:
+                    alt = to_float(alt)
+
+                    pressure = compute_pressure_from_altitude(alt, units)
             
             unit_suffix = UNITS[units]["pressure"]
             self.result_label.config(text=f"Pressure: {pressure:.3f} {unit_suffix}")
